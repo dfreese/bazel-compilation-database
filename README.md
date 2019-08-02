@@ -17,14 +17,14 @@ the `generate.sh` script.  This will create a `compile_commands.json` file at
 your workspace root. For example,
 
 ```sh
-RELEASE_VERSION=0.3.4
-curl -L https://github.com/grailbio/bazel-compilation-database/archive/${RELEASE_VERSION}.tar.gz | tar -xz
+RELEASE_VERSION=verb
+curl -L https://github.com/dfreese/bazel-compilation-database/archive/${RELEASE_VERSION}.tar.gz | tar -xz
 bazel-compilation-database-${RELEASE_VERSION}/generate.sh
 ```
 
 An alternative to running the `generate.sh` script is to define a target of
 rule type `compilation_database` with the attribute `targets` as a list of
-top-level `cc_.*` labels which you want to include in your compilation database. 
+top-level `cc_.*` labels which you want to include in your compilation database.
 For example,
 
 ```python

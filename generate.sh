@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ux
 
 # Copyright 2017 GRAIL, Inc.
 #
@@ -20,8 +20,6 @@
 # This is inspired from
 # https://github.com/google/kythe/blob/master/tools/cpp/generate_compilation_database.sh
 
-set -e
-
 readonly ASPECTS_DIR="$(dirname "$0")"
 readonly ASPECTS_FILE="${ASPECTS_DIR/#.\/}/aspects.bzl"
 readonly OUTPUT_GROUPS="compdb_files"
@@ -32,9 +30,10 @@ readonly COMPDB_FILE="${ASPECTS_DIR}/compile_commands.json"
 
 readonly QUERY_CMD=(
   bazel query
+    --keep_going
     --noshow_progress
     --noshow_loading_progress
-    'kind("cc_(library|binary|test|inc_library|proto_library)", //...)'
+    'kind("(qt5_)?(linux_)?cc_(library|binary|test|inc_library|proto_library)", //...)'
 )
 
 # Clean any previously generated files.
@@ -45,6 +44,7 @@ fi
 # shellcheck disable=SC2046
 bazel build \
   --aspects="${ASPECTS_FILE}"%compilation_database_aspect \
+  --keep_going \
   --noshow_progress \
   --noshow_loading_progress \
   --output_groups="${OUTPUT_GROUPS}" \
